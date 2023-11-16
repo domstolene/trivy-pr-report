@@ -5,6 +5,10 @@ Fail the build if security vulnerabilities of HIGH or CRITICAL severity is disco
 ## Usage
 
 ```yaml
+on:
+  pull_request:
+    branches: [ main ]
+…
 permissions:
   contents: read # for actions/checkout to fetch code
   pull-requests: write # required for adding pull request comments
