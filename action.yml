@@ -4,9 +4,6 @@ inputs:
   github_token:
     description: 'GitHub Token'
     required: true
-  scan_ref:
-    description: 'Root folder to scan'
-    required: true
 
 runs:
   using: 'composite'
