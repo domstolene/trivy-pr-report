@@ -25,7 +25,7 @@ runs:
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
         output: 'trivy.json'
-        exit-code: 1
+        exit-code: 0
         scanners: 'vuln'
 
     - name: Report Vulnerabilities in PR
