@@ -5,6 +5,10 @@ inputs:
     description: 'GitHub Token'
     required: true
 
+  skip_dirs:
+    description: 'A comma separated list of folders to ignore'
+    required: false
+
 runs:
   using: 'composite'
   steps:
@@ -26,6 +30,7 @@ runs:
         severity: 'CRITICAL,HIGH'
         output: 'trivy.json'
         exit-code: 0
+        skip-dirs: ${{ inputs.skip_dirs }}
         scanners: 'vuln'
 
     - name: Report Vulnerabilities in PR
