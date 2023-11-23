@@ -39,7 +39,7 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github_token }}
       shell: bash
       run: |
-        echo -n "{\"body\":\"### Vulnerabilities detected\nThe following vulnerabilities of HIGH or CRITICAL severity have been detected in the code. Please resolve these before merging the pull request.\n\n" > result.json
+        echo -n "{\"body\":\"### Vulnerabilities detected\nThe following vulnerabilities of HIGH or CRITICAL severity have been detected in the code. Please resolve these before merging the pull request.\n\nRun the following command from the project root to list vulnerabilities locally: `trivy --format template --template $'{{ range . }}{{- $target := .Target}}{{ range .Vulnerabilities }}{{ .VulnerabilityID }}\t{{ .Severity }}\t{{ .PkgName}} {{ $target }}\n{{ end }}{{ end }}' --scanners vuln --severity CRITICAL,HIGH fs . --ignore-unfixed | sort | uniq`\n\n" > result.json
         cat trivy.json | sort | uniq | tr -d '\n' >> result.json
         echo "\"}" >> result.json
         curl -X POST -H "Accept: application/vnd.github+json" \
