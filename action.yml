@@ -16,6 +16,9 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Check git ref
+      run: echo "Git ref: $GITHUB_REF"
+
     - name: Obtain template file
       shell: bash
       run: curl -o trivy-pr-comment.tpl https://raw.githubusercontent.com/domstolene/trivy-pr-report/main/trivy-pr-comment.tpl
