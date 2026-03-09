@@ -19,10 +19,6 @@ runs:
     - name: Check git ref
       run: echo "Git ref: $GITHUB_REF"
 
-    - name: Obtain template file
-      shell: bash
-      run: curl -o trivy-pr-comment.tpl https://raw.githubusercontent.com/domstolene/trivy-pr-report/main/trivy-pr-comment.tpl
-
     - name: Run Trivy for PR report
       uses: aquasecurity/trivy-action@master
       id: scan
@@ -31,8 +27,7 @@ runs:
         TRIVY_JAVA_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-java-db
       with:
         scan-type: 'fs'
-        format: 'template'
-        template: '@trivy-pr-comment.tpl'
+        format: 'json'
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
         output: 'trivy.json'
@@ -46,9 +41,10 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github_token }}
       shell: bash
       run: |
-        echo -n "{\"body\":\"### Trivy fs scan - Vulnerabilities detected\nThe following vulnerabilities of HIGH or CRITICAL severity has been detected in the code. Please resolve these before merging the pull request.\n\n" > result.json
-        cat trivy.json | sort | uniq | tr -d '\n' >> result.json
-        echo "\"}" >> result.json
+        echo '### Trivy fs scan - Vulnerabilities detected\nThe following vulnerabilities of HIGH or CRITICAL severity has been detected in the code. Please resolve these before merging the pull request.\n\n' > result.md
+        cat trivy.json | jq '[ .Results[] | .Vulnerabilities[]? | { "id": .VulnerabilityID, "title": .Title, "url": .PrimaryURL, "description": .Description } ] | unique' \
+          | jq -r '.[] | "\n#### \(.id) - \(.title)\n\(.url)\n\(.description)"' >> result.md
+        cat result.md | jq -Rs '{ body: . }' > result.json
         curl -X POST -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           -H "Authorization: Bearer $GITHUB_TOKEN" \
