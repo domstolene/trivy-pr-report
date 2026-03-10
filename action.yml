@@ -17,7 +17,9 @@ runs:
       uses: actions/checkout@v4
 
     - name: Check git ref
-      run: echo "Git ref: $GITHUB_REF"
+      shell: bash
+      run: |
+        echo "Git ref: $GITHUB_REF"
 
     - name: Run Trivy for PR report
       uses: aquasecurity/trivy-action@master
