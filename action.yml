@@ -22,7 +22,7 @@ runs:
         echo "Git ref: $GITHUB_REF"
 
     - name: Run Trivy for PR report
-      uses: aquasecurity/trivy-action@master
+      uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
       id: scan
       env:
         TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db
