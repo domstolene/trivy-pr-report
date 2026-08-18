@@ -14,7 +14,7 @@ runs:
   steps:
 
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	# SHA-ref for v4.2.2
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # SHA-ref for v4.2.2
 
     - name: Check git ref
       shell: bash
