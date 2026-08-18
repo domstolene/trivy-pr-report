@@ -14,7 +14,7 @@ runs:
   steps:
 
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # SHA-ref for v4.2.2
 
     - name: Check git ref
       shell: bash
@@ -22,7 +22,7 @@ runs:
         echo "Git ref: $GITHUB_REF"
 
     - name: Run Trivy for PR report
-      uses: aquasecurity/trivy-action@v0.35.0
+      uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # SHA-ref for v0.36.0
       id: scan
       env:
         TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db
